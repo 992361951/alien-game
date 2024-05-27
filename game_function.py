@@ -12,7 +12,7 @@ def keydown(event,ship):
                 ship.moving_up=True
             elif event.key==pygame.K_DOWN:
                 ship.moving_down=True
-
+中文
 def keyup(event, ship):
     if event.type == pygame.KEYUP: 
         if event.key == pygame.K_RIGHT: 

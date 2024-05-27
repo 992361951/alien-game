@@ -3,7 +3,7 @@ from settings import Settings
 
 ## 无法自动补齐其他类传入的参数
 class Ship:
-    def __init__(self,screen):
+    def __init__(self, screen):
         ##将背景放进来
         self.screen=screen
         ##载入图片，并获得其矩形属性
@@ -17,7 +17,7 @@ class Ship:
         # self.image_rect.centerx= self.screen_rect.centerx##这个其实就是rect的x属性
         # self.image_rect.bottom= self.screen_rect.bottom
         ##为了小数点而补上去的
-        self.centerx= float(self.screen_rect.centerx )
+        self.centerx= float(self.screen_rect.centerx)
         self.bottom = float(self.screen_rect.bottom )
 
         ##飞船速度
