@@ -40,9 +40,9 @@ def check_event(ship):
                 
 
 def upadate_screen( screen , ship ):
-# 每次循环都重新绘制以下图形
-# screen.fill( screen_settings.scree_color )
-# 白色
+## 每次循环都重新绘制以下图形
+## screen.fill( screen_settings.scree_color )
+## 白色
     screen.fill((255,255,255))
     ship.blitme()
 
