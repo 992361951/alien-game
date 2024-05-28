@@ -8,9 +8,9 @@ def run_game():
     pygame.init()
 
     ##背景的设置
-    screen_settings=Settings()
+    settings=Settings()
     screen=pygame.display.set_mode(
-    (screen_settings.screen_width , screen_settings.screen_height)
+    (settings.screen_width , settings.screen_height)
     )
     pygame.display.set_caption('Alien Game')
 
@@ -23,7 +23,7 @@ def run_game():
         game_function.upadate_screen( screen , ship )
 
         ##事件检测
-        game_function.check_event( ship )
+        game_function.check_event( ship)
         ship.update()
 
         pygame.display.flip()
