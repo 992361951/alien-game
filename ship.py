@@ -3,7 +3,7 @@ from settings import Settings
 
 ## 无法自动补齐其他类传入的参数
 class Ship:
-    def __init__(self, screen):
+    def __init__(self, screen:pygame.Surface):
         ##将背景放进来
         self.screen=screen
         ##载入图片，并获得其矩形属性
