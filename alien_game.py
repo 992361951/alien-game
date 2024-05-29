@@ -26,7 +26,7 @@ def run_game():
         game_function.check_event( ship , bullets ,screen , settings)
 
         game_function.update(screen , ship , bullets)
-
+        
         game_function.draw_screen( screen , ship , bullets )
 
         pygame.display.flip()
