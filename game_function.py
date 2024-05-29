@@ -2,22 +2,31 @@ import sys
 import pygame
 from settings import Settings
 from bullet import Bullet
+     
+def check_event(ship , bullets , screen, settings):
+    for event in pygame.event.get():
 
-def keydown(event: pygame.event.Event ,ship  , bullets ,screen ,settings ):
-    if event.type==pygame.KEYDOWN:
-            if event.key==pygame.K_RIGHT:
-                ship.moving_right=True
-            elif event.key==pygame.K_LEFT:
-                ship.moving_left=True
-            elif event.key==pygame.K_UP:
-                ship.moving_up=True
-            elif event.key==pygame.K_DOWN:
-                ship.moving_down=True
-            # 是否按下空格 产生新的bullet 并且加入到 弹夹 中
-            elif event.key == pygame.K_SPACE:
-                 new_bullet=Bullet(ship, screen, settings)
-                 bullets.add(new_bullet)
+        check_quit(event)
+
+        keydown(event,ship ,bullets , screen, settings)
         
+        keyup (event,ship)
+
+    def keydown(event: pygame.event.Event ,ship  , bullets ,screen ,settings ):
+        if event.type==pygame.KEYDOWN:
+                if event.key==pygame.K_RIGHT:
+                    ship.moving_right=True
+                elif event.key==pygame.K_LEFT:
+                    ship.moving_left=True
+                elif event.key==pygame.K_UP:
+                    ship.moving_up=True
+                elif event.key==pygame.K_DOWN:
+                    ship.moving_down=True
+                # 是否按下空格 产生新的bullet 并且加入到 弹夹 中
+                elif event.key == pygame.K_SPACE:
+                    new_bullet=Bullet(ship, screen, settings)
+                    bullets.add(new_bullet)
+            
                  
 
 def keyup(event :pygame.event.Event , ship):
@@ -44,20 +53,11 @@ def check_quit(event:pygame.event.Event):
             pygame.quit()
             #终止程序，确保退出程序
             sys.exit()
-     
 
-def check_event(ship , bullets , screen, settings):
-    for event in pygame.event.get():
 
-        check_quit(event)
-
-        keydown(event,ship ,bullets , screen, settings)
-        
-        keyup (event,ship)
-                
 def update (screen , ship , bullets):
      ship.update ()
-     
+
      for bullet in bullets:
             bullet.update()
 
