@@ -21,9 +21,8 @@ class Bullet(Sprite):
     def draw_myself(self):
         pygame.draw.rect(self.screen , self.color , self.rect )
 
-    def fire (self):
-        
+    def update (self):
         self.rect.top -= self.speed##这里可能会出错
-        self.draw_myself(self)
+        
 
 

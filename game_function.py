@@ -1,8 +1,9 @@
 import sys
 import pygame
 from settings import Settings
+from bullet import Bullet
 
-def keydown(event: pygame.event.Event ,ship  ):
+def keydown(event: pygame.event.Event ,ship  , bullets ,screen ,settings ):
     if event.type==pygame.KEYDOWN:
             if event.key==pygame.K_RIGHT:
                 ship.moving_right=True
@@ -12,7 +13,10 @@ def keydown(event: pygame.event.Event ,ship  ):
                 ship.moving_up=True
             elif event.key==pygame.K_DOWN:
                 ship.moving_down=True
-            # 是否按下空格发射bullet
+            # 是否按下空格 产生新的bullet 并且加入到 弹夹 中
+            elif event.key == pygame.K_SPACE:
+                 new_bullet=Bullet(ship, screen, settings)
+                 bullets.add(new_bullet)
         
                  
 
@@ -42,20 +46,29 @@ def check_quit(event:pygame.event.Event):
             sys.exit()
      
 
-def check_event(ship):
+def check_event(ship , bullets , screen, settings):
     for event in pygame.event.get():
 
         check_quit(event)
 
-        keydown(event,ship)
+        keydown(event,ship ,bullets , screen, settings)
         
         keyup (event,ship)
                 
+def update (screen , ship , bullets):
+     ship.update ()
+     
+     for bullet in bullets:
+            bullet.update()
 
-def upadate_screen( screen , ship ):
+
+def draw_screen( screen , ship , bullets):
 ## 每次循环都重新绘制以下图形
 ## screen.fill( screen_settings.scree_color )
 ## 白色
     screen.fill((255,255,255))
     ship.blitme()
+    
+    for bullet in bullets:
+         bullet.draw_myself()
 

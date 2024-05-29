@@ -3,6 +3,7 @@ import sys
 from settings import Settings
 from ship import Ship
 import game_function
+from pygame.sprite import Group 
 
 def run_game():
     pygame.init()
@@ -16,15 +17,17 @@ def run_game():
 
     ##定义一个Ship类型的对象
     ship=Ship(screen)
-
+    bullets = Group()
+    
 
     ##主循环
     while True:
-        game_function.upadate_screen( screen , ship )
-
         ##事件检测
-        game_function.check_event( ship)
-        ship.update()
+        game_function.check_event( ship , bullets ,screen , settings)
+
+        game_function.update(screen , ship , bullets)
+
+        game_function.draw_screen( screen , ship , bullets )
 
         pygame.display.flip()
 
