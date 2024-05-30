@@ -2,10 +2,15 @@ class Settings:
     def __init__(self) -> None:
         self.screen_width=1200
         self.screen_height=800
-        self.scree_color=(230,230,230)
-        self.speed=0.4
+        self.scree_color=(0,0,0)
+        
+        self.speed=1
         # bullet的设定
         self.bullet_color=(100,0,0)
-        self.bullet_speed = 0.8
+        self.bullet_speed = 2.0
         self.bullet_width = 10
         self.bullet_height =20
+
+        # # alien的设定
+        # self.alien_Xspeed = 0.1
+        # self.alien_Yspeed = 0.2

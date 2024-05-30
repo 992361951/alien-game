@@ -2,8 +2,9 @@ import sys
 import pygame
 from settings import Settings
 from bullet import Bullet
+from alien import Alien
      
-def check_event(ship , bullets , screen, settings):
+def check_event(ship , bullets , screen, settings , aliens):
     for event in pygame.event.get():
 
         check_quit(event)
@@ -11,6 +12,16 @@ def check_event(ship , bullets , screen, settings):
         keydown(event,ship ,bullets , screen, settings)
         
         keyup (event,ship)
+
+        create_alien(aliens , screen , settings)
+        
+        alien_turn(aliens,settings)
+        # alien_turn(aliens,screen)
+        # for alien in aliens:
+        #      if alien.rect.left < 0:
+        #           alien.xspeed
+                  
+
 
 def keydown(event: pygame.event.Event ,ship  , bullets ,screen ,settings ):
     if event.type==pygame.KEYDOWN:
@@ -41,6 +52,20 @@ def keyup(event :pygame.event.Event , ship):
         elif event.key==pygame.K_DOWN:
                 ship.moving_down=False
 
+def create_alien ( aliens , screen ,settings):
+     if len(aliens) ==0 :
+        for _ in range (3)  :
+            new_alien = Alien( screen ,settings )
+            aliens.add(new_alien)
+
+def alien_turn(aliens,settings):
+    for alien in aliens:
+            if alien.rect.left < 20:
+                alien.Xspeed = abs(alien.Xspeed)
+
+            if alien.rect.right > settings.screen_width - 40 :
+                alien.Xspeed = -abs(alien.Xspeed)
+
 def check_quit(event:pygame.event.Event):
      # 判断用户是否点了"X"关闭按钮,并执行if代码段
     if event.type == pygame.QUIT:
@@ -56,25 +81,37 @@ def check_quit(event:pygame.event.Event):
             sys.exit()
 
 
-def update (screen , ship , bullets):
+def update (screen , ship , bullets , aliens):
     ship.update ()
 
     for bullet in bullets:
         bullet.update()
-
+    
+    ##移除碰到屏幕的子弹
     for old_bullet in bullets:
         if old_bullet.rect.bottom < 0 :
             bullets.remove(old_bullet)
 
-    
+    for alien in aliens :
+         alien.update()
 
-def draw_screen( screen , ship , bullets):
+    ##移除碰到屏幕的alien
+    for alien in aliens :
+         if alien.rect.bottom > 790 :
+            aliens.remove(alien)
+
+def draw_screen( screen , ship , bullets , aliens,background):
 ## 每次循环都重新绘制以下图形
 ## screen.fill( screen_settings.scree_color )
 ## 白色
-    screen.fill((255,255,255))
+    screen.fill((0,0,0))
+    # screen.blit(background , (0,0))
     ship.blitme()
+
     
     for bullet in bullets:
          bullet.draw_myself()
+
+    for alien in aliens:
+         alien.blitme()
 

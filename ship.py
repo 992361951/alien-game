@@ -7,8 +7,9 @@ class Ship:
         ##将背景放进来
         self.screen=screen
         ##载入图片，并获得其矩形属性
-        self.image=pygame.image.load("image\\ship.bmp")
+        self.image=pygame.image.load("image\\ship.png")
         self.image=pygame.transform.scale(self.image,(100,100))
+
         self.image_rect=self.image.get_rect()
 
         ##背景矩阵属性
