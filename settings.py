@@ -11,6 +11,4 @@ class Settings:
         self.bullet_width = 10
         self.bullet_height =20
 
-        # # alien的设定
-        # self.alien_Xspeed = 0.1
-        # self.alien_Yspeed = 0.2
+        self.game_status = False

@@ -1,9 +1,12 @@
 import pygame
 from settings import Settings
+from pygame.sprite import Sprite
 
 ## 无法自动补齐其他类传入的参数
-class Ship:
+class Ship(Sprite):
     def __init__(self, screen:pygame.Surface):
+        super().__init__()
+
         ##将背景放进来
         self.screen=screen
         ##载入图片，并获得其矩形属性

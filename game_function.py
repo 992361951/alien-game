@@ -14,13 +14,14 @@ def check_event(ship , bullets , screen, settings , aliens):
         keyup (event,ship)
 
         create_alien(aliens , screen , settings)
-        
+
+        # alien碰到左右两边屏幕就转向
         alien_turn(aliens,settings)
-        # alien_turn(aliens,screen)
-        # for alien in aliens:
-        #      if alien.rect.left < 0:
-        #           alien.xspeed
-                  
+
+        # ship_collide_alien(aliens,ship,settings)
+        # if pygame.sprite.spritecollideany(ship, aliens): 
+        #     settings.game_status = False  
+
 
 
 def keydown(event: pygame.event.Event ,ship  , bullets ,screen ,settings ):
@@ -34,10 +35,12 @@ def keydown(event: pygame.event.Event ,ship  , bullets ,screen ,settings ):
             elif event.key==pygame.K_DOWN:
                 ship.moving_down=True
 
-            # 是否按下空格 产生新的bullet 并且加入到 弹夹 中
+            # 是否按下空格 产生新的bullet 并且加入到 弹夹 中,并发出音效biu
             elif event.key == pygame.K_SPACE and len(bullets)<=1:
                 new_bullet=Bullet(ship, screen, settings)
                 bullets.add(new_bullet)
+                sound = pygame.mixer.Sound ('sound\\biu.mp3')
+                sound.play()
             
                  
 
@@ -63,7 +66,7 @@ def alien_turn(aliens,settings):
             if alien.rect.left < 20:
                 alien.Xspeed = abs(alien.Xspeed)
 
-            if alien.rect.right > settings.screen_width - 40 :
+            if alien.rect.right > settings.screen_width - 50 :
                 alien.Xspeed = -abs(alien.Xspeed)
 
 def check_quit(event:pygame.event.Event):
@@ -84,6 +87,9 @@ def check_quit(event:pygame.event.Event):
 def update (screen , ship , bullets , aliens):
     ship.update ()
 
+    ##当子弹与alien碰撞后，删除他们俩
+    collisions = pygame.sprite.groupcollide(bullets, aliens, True, True) 
+
     for bullet in bullets:
         bullet.update()
     
@@ -100,12 +106,11 @@ def update (screen , ship , bullets , aliens):
          if alien.rect.bottom > 790 :
             aliens.remove(alien)
 
-def draw_screen( screen , ship , bullets , aliens,background):
+def draw_screen( screen , ship , bullets , aliens):
 ## 每次循环都重新绘制以下图形
-## screen.fill( screen_settings.scree_color )
-## 白色
+
     screen.fill((0,0,0))
-    # screen.blit(background , (0,0))
+
     ship.blitme()
 
     
@@ -115,3 +120,23 @@ def draw_screen( screen , ship , bullets , aliens,background):
     for alien in aliens:
          alien.blitme()
 
+
+def push_bottom ( bottom , settings):
+     
+     while not settings.game_status:
+            bottom.blitme()
+            pygame.display.flip()
+
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
+                elif event.type == pygame.MOUSEBUTTONDOWN:
+                    mouse_x, mouse_y = pygame.mouse.get_pos()
+                    if bottom.rect.collidepoint(mouse_x, mouse_y):
+                        settings.game_status = True
+
+# def ship_collide_alien( aliens , ship ,settings ):
+#     if pygame.sprite.spritecollideany(ship, aliens): 
+#         settings.game_status = False
+    
