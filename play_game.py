@@ -9,12 +9,13 @@ from bottom import Bottom
 def run_game():
     pygame.init()
     
-    ##背景的设置
+    
     settings=Settings()
-
+    ##背景的设置
     screen=pygame.display.set_mode(
     (settings.screen_width , settings.screen_height)
     )
+    pygame.display.set_caption("大帅逼做的游戏") 
 
     ship=Ship(screen)
     bottom = Bottom ( screen )
