@@ -25,17 +25,15 @@ def run_game():
     while True:
         ##事件检测
         
-        game_function.check_event( ship , bullets ,screen , settings , aliens)
+        game_function.check_event( ship , bullets ,screen , settings , aliens , bottom)
 
-        game_function.update(screen , ship , bullets , aliens)
+        game_function.update(screen , ship , bullets , aliens, bottom , settings)
          
-
         game_function.draw_screen( screen , ship , bullets ,aliens)
 
-        # if pygame.sprite.spritecollideany(ship, aliens): 
-        #     settings.game_status = False 
         #当游戏状态为false时，弹出botttom，并用鼠标点击才能重新玩
-        game_function.push_bottom( bottom,settings )
+
+        game_function.push_bottom( bottom,settings,aliens ,screen)
 
         pygame.display.flip()
 

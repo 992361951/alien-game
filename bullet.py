@@ -14,8 +14,8 @@ class Bullet(Sprite):
         self.speed = settings.bullet_speed
         ##画一个子弹
         self.rect=pygame.Rect(0 , 0 , settings.bullet_width , settings.bullet_height)
-        self.rect.top = ship.image_rect.top
-        self.rect.centerx = ship.image_rect.centerx
+        self.rect.top = ship.rect.top
+        self.rect.centerx = ship.rect.centerx
 
 
     def draw_myself(self):

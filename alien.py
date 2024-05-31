@@ -24,7 +24,8 @@ class Alien(pygame.sprite.Sprite):
         self.last_update_time= time.time()
 
         ##飞船移动速度
-        self.Xspeed = round(random.uniform(0.5, 0.5), 1)
+        self.Xspeed = settings.Xspeed
+        self.Yspeed = settings.Yspeed 
 
     def update (self ):
         current_time = time.time()
@@ -36,7 +37,7 @@ class Alien(pygame.sprite.Sprite):
             # 更新水平速度
             self.Xspeed=round(random.uniform(-0.3, 0.3), 1)
         
-        self.y += random.uniform(0,0.5)
+        self.y += self.Yspeed
         self.rect.top= self.y
 
         self.x += self.Xspeed

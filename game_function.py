@@ -3,8 +3,9 @@ import pygame
 from settings import Settings
 from bullet import Bullet
 from alien import Alien
-     
-def check_event(ship , bullets , screen, settings , aliens):
+from you_died import Died   
+
+def check_event(ship , bullets , screen, settings , aliens ,bottom):
     for event in pygame.event.get():
 
         check_quit(event)
@@ -17,11 +18,12 @@ def check_event(ship , bullets , screen, settings , aliens):
 
         # alien碰到左右两边屏幕就转向
         alien_turn(aliens,settings)
-
-        # ship_collide_alien(aliens,ship,settings)
-        # if pygame.sprite.spritecollideany(ship, aliens): 
-        #     settings.game_status = False  
-
+        
+        # ship与aliens相撞
+        if pygame.sprite.spritecollideany(ship, aliens): 
+            settings.game_status = False
+            change_Gamestatus(settings , screen ,ship)
+            push_bottom ( bottom , settings ,aliens , screen)
 
 
 def keydown(event: pygame.event.Event ,ship  , bullets ,screen ,settings ):
@@ -39,10 +41,11 @@ def keydown(event: pygame.event.Event ,ship  , bullets ,screen ,settings ):
             elif event.key == pygame.K_SPACE and len(bullets)<=1:
                 new_bullet=Bullet(ship, screen, settings)
                 bullets.add(new_bullet)
+                pygame.display.flip()
                 sound = pygame.mixer.Sound ('sound\\biu.mp3')
                 sound.play()
-            
-                 
+
+
 
 def keyup(event :pygame.event.Event , ship):
     if event.type == pygame.KEYUP: 
@@ -84,10 +87,10 @@ def check_quit(event:pygame.event.Event):
             sys.exit()
 
 
-def update (screen , ship , bullets , aliens):
+def update (screen , ship , bullets , aliens, bottom ,settings):
     ship.update ()
 
-    ##当子弹与alien碰撞后，删除他们俩
+    ##当子弹与alien碰撞后，删除他俩
     collisions = pygame.sprite.groupcollide(bullets, aliens, True, True) 
 
     for bullet in bullets:
@@ -105,6 +108,11 @@ def update (screen , ship , bullets , aliens):
     for alien in aliens :
          if alien.rect.bottom > 790 :
             aliens.remove(alien)
+            change_Gamestatus(settings , screen ,ship)
+            push_bottom ( bottom , settings ,aliens,screen)
+
+            
+            
 
 def draw_screen( screen , ship , bullets , aliens):
 ## 每次循环都重新绘制以下图形
@@ -121,7 +129,7 @@ def draw_screen( screen , ship , bullets , aliens):
          alien.blitme()
 
 
-def push_bottom ( bottom , settings):
+def push_bottom ( bottom , settings ,aliens,screen):
      
      while not settings.game_status:
             bottom.blitme()
@@ -131,12 +139,38 @@ def push_bottom ( bottom , settings):
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
+
+                elif event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_SPACE:
+                        settings.game_status = True
+                        for alien in aliens :
+                             aliens.remove(alien)
+                    elif event.key == pygame.K_q :
+                        pygame.quit()
+                        sys.exit()
+
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     mouse_x, mouse_y = pygame.mouse.get_pos()
                     if bottom.rect.collidepoint(mouse_x, mouse_y):
                         settings.game_status = True
+                        for alien in aliens :
+                             aliens.remove(alien)
 
 # def ship_collide_alien( aliens , ship ,settings ):
 #     if pygame.sprite.spritecollideany(ship, aliens): 
 #         settings.game_status = False
-    
+
+# 当 游戏失败时，会发出boom的一声，并且飞船重置
+def change_Gamestatus(settings,screen,ship):
+    screen.fill( (230, 230, 230) )
+    settings.game_status = False
+    sound = pygame.mixer.Sound ('sound\\boom.mp3')
+    sound.play()
+    died=Died(screen)
+    died.blitme()
+    pygame.display.flip()    
+
+    ship.moving_left =False
+    ship.moving_up = False
+    ship.moving_right = False
+    ship.moving_down = False
